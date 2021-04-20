@@ -20,7 +20,6 @@ builds:
       - amd64
       - arm
       - arm64
-      - 386
 brews:
    -
     name: apm
