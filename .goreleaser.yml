@@ -4,6 +4,7 @@ before:
   hooks:
     - go mod download
 builds:
+  - env:
     goos:
       - linux
       - windows
