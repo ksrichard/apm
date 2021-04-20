@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "apm/cmd"
+import "github.com/ksrichard/apm/cmd"
 
 func main() {
 	cmd.Execute()

@@ -1,13 +1,13 @@
 package arduino
 
 import (
-	"apm/project"
 	"context"
 	"errors"
 	"fmt"
 	acli "github.com/arduino/arduino-cli/cli"
 	aconfig "github.com/arduino/arduino-cli/configuration"
 	"github.com/arduino/arduino-cli/i18n"
+	"github.com/ksrichard/apm/project"
 	"github.com/phayes/freeport"
 	"google.golang.org/grpc"
 	"io"
@@ -36,10 +36,10 @@ func RunCmdInteractive(cmd *cobra.Command, command []string) error {
 
 type ArduinoCli struct {
 	grpcServerPort int
-	cmd *cobra.Command
-	client rpc.ArduinoCoreServiceClient
-	grpcConn *grpc.ClientConn
-	grpcInstance *rpc.Instance
+	cmd            *cobra.Command
+	client         rpc.ArduinoCoreServiceClient
+	grpcConn       *grpc.ClientConn
+	grpcInstance   *rpc.Instance
 }
 
 func (c *ArduinoCli) Init() error {
@@ -51,7 +51,7 @@ func (c *ArduinoCli) Init() error {
 	c.grpcServerPort = grpcPort
 
 	// grpc connection
-	conn, err := c.getGrpcConnection();
+	conn, err := c.getGrpcConnection()
 	if err != nil {
 		return err
 	}
@@ -88,7 +88,7 @@ func (c *ArduinoCli) getArduinoCliCommand() *cobra.Command {
 }
 
 func (c *ArduinoCli) SearchLibrary(query string) ([]*rpc.SearchedLibrary, error) {
-	maxSizeOption := grpc.MaxCallRecvMsgSize(64*10e6)
+	maxSizeOption := grpc.MaxCallRecvMsgSize(64 * 10e6)
 	response, err := c.client.LibrarySearch(context.Background(), &rpc.LibrarySearchRequest{
 		Instance: c.grpcInstance,
 		Query:    query,
@@ -185,8 +185,8 @@ func (c *ArduinoCli) CheckDependencyVersionMismatch(dep project.ProjectDependenc
 									return errors.New(
 										fmt.Sprintf(
 											"Version mismatch: %s@%s ->|<- %s -> %s@%s", dep.Library, dep.Version, projectLib.Library, dependency.Name, dependency.VersionConstraint,
-											),
-										)
+										),
+									)
 								}
 							}
 						}
@@ -265,6 +265,3 @@ func (c *ArduinoCli) UninstallDependency(dep string) error {
 	log.Printf("Removing dependency '%s'...\n", dep)
 	return RunCmdInteractive(c.cmd, []string{"lib", "uninstall", dep})
 }
-
-
-
