@@ -7,19 +7,12 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - env:
-      - CGO_ENABLED=1
     goos:
       - linux
       - windows
       - darwin
-    goarm:
-      - 6
-      - 7
     goarch:
       - amd64
-      - arm
-      - arm64
 brews:
    -
     name: apm
