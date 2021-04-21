@@ -20,7 +20,7 @@ jobs:
         run: go get github.com/mitchellh/gox
 
       - name: Build for Linux/Windows
-        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="linux" -os="windows" -arch="amd64" -cgo
+        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="linux" -os="windows" -arch="amd64" -arch="386" -arch="arm" -cgo
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -45,7 +45,7 @@ jobs:
         run: go get github.com/mitchellh/gox
 
       - name: Build for MacOS
-        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="darwin"  -cgo
+        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="darwin" -arch="amd64" -cgo
 
       - name: Release
         uses: softprops/action-gh-release@v1
