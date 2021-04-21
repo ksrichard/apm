@@ -19,14 +19,12 @@ jobs:
       - name: Get Gox
         run: go get github.com/mitchellh/gox
 
-      - name: Build for Linux
-        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="linux" -arch="amd64" -cgo
-
-      - name: Build for Windows
-        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="windows" -arch="amd64" -cgo
+      - name: Build for Linux/Windows
+        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="linux,windows" -arch="amd64" -cgo
 
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             build/apm_linux_amd64
