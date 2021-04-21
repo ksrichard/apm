@@ -70,7 +70,6 @@ func AutoCompleteInput(title string, searchAgainStr string, cancelStr string, re
 		}
 		if res != nil && len(res) == 0 {
 			fmt.Printf("No library found for search query '%s'!\n", query)
-			continue
 		}
 		for k, v := range res {
 			items[k] = v
