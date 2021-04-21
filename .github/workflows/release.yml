@@ -2,11 +2,11 @@ name: Build Branch
 
 on:
   push:
-    branches: [ main ]
+    tags: *
 
 jobs:
 
-  build-windows-linux:
+  build-linux-windows:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
