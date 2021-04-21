@@ -2,7 +2,8 @@ name: Build Branch
 
 on:
   push:
-    tags: *
+    tags:
+    - *
 
 jobs:
 
