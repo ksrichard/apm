@@ -20,7 +20,7 @@ jobs:
         run: go get github.com/mitchellh/gox
 
       - name: Build for Linux/Windows
-        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="linux" -os="windows" -arch="amd64" -arch="386" -cgo
+        run: gox -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" -os="linux" -os="windows" -arch="amd64" -cgo
 
       - name: Release
         uses: softprops/action-gh-release@v1
