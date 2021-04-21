@@ -28,10 +28,10 @@ import (
 
 // removeCmd represents the remove command
 var removeCmd = &cobra.Command{
-	Use:   "remove",
+	Use:     "remove",
 	Example: "apm remove\napm remove OneWire\napm remove onewire\napm remove \"robot control\"\napm remove \"Robot Control\"",
-	Short: "Remove library from the project",
-	Long: `Remove library from the Arduino project`,
+	Short:   "Remove library from the project",
+	Long:    `Remove library from the Arduino project`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// project details
 		details, err := project.GetProjectDetails(cmd)
@@ -53,7 +53,16 @@ var removeCmd = &cobra.Command{
 			fmt.Println("No library provided...")
 			items := make(map[string]interface{})
 			for _, dep := range details.Dependencies {
-				items[fmt.Sprintf("%s (%s)", dep.Library, dep.Version)] = dep.Library
+				// TODO: continue
+				//if dep.Library == "" && dep.Git != "" {
+				//	items[dep.Git] = dep.Git
+				//}
+				//if dep.Library == "" && dep.Zip != "" {
+				//	items[dep.Zip] = dep.Zip
+				//}
+				if dep.Library != "" && dep.Version != "" {
+					items[fmt.Sprintf("%s (%s)", dep.Library, dep.Version)] = dep.Library
+				}
 			}
 			selectedLib, err := util.Select("Select library to remove", []string{"Cancel"}, items)
 			if err != nil {
