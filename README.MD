@@ -1,5 +1,10 @@
 apm (Arduino Package Manager)
 ---
+[![Go](https://github.com/ksrichard/apm/actions/workflows/release.yml/badge.svg)](https://github.com/ksrichard/apm/actions/workflows/release.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ksrichard/apm)](https://goreportcard.com/report/github.com/ksrichard/apm)
+[![Go Reference](https://pkg.go.dev/badge/github.com/ksrichard/apm.svg)](https://pkg.go.dev/github.com/ksrichard/apm)
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/ksrichard/apm.svg)](https://github.com/ksrichard/apm)
+[![GitHub release](https://img.shields.io/github/release/ksrichard/apm.svg)](https://github.com/ksrichard/apm/releases/latest/)
 
 A package manager for Arduino projects to make them portable (no more manual download etc...).
 
