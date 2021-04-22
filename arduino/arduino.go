@@ -261,7 +261,15 @@ func (c *ArduinoCli) InstallDependencies(details *project.ProjectDetails) error 
 	return nil
 }
 
-func (c *ArduinoCli) UninstallDependency(dep string) error {
-	log.Printf("Removing dependency '%s'...\n", dep)
-	return RunCmdInteractive(c.cmd, []string{"lib", "uninstall", dep})
+func (c *ArduinoCli) UninstallDependency(dep *project.ProjectDependency) error {
+	depName := ""
+	if dep.Library != "" {
+		depName = dep.Library
+	}
+	if depName == "" {
+		log.Println("Dependency is a Git repository/Zip file based library, skipping uninstall...")
+		return nil
+	}
+	log.Printf("Uninstalling dependency '%s'...\n", depName)
+	return RunCmdInteractive(c.cmd, []string{"lib", "uninstall", depName})
 }

@@ -29,7 +29,16 @@ Use "apm [command] --help" for more information about a command.
 ```
 
 ### Showcase
+TODO
 
+### Installation
+#### Install on Linux/MacOS
+Run the following in your terminal to install the latest version of `apm`
+```shell script
+curl -s https://raw.githubusercontent.com/ksrichard/apm/master/install.sh | sh
+```
+#### Install on Windows
+Download the latest version of `apm` from https://github.com/ksrichard/apm/releases/latest for Windows (`apm_windows_amd64.exe`), rename it to apm.exe and put it on path.
 
 ### How it works
 Every `apm` based project must have a file called `apm.json` in the project root (it can be create by running `apm init`)

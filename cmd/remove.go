@@ -21,6 +21,7 @@ import (
 	"github.com/ksrichard/apm/arduino"
 	"github.com/ksrichard/apm/project"
 	"github.com/ksrichard/apm/util"
+	"log"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -28,10 +29,18 @@ import (
 
 // removeCmd represents the remove command
 var removeCmd = &cobra.Command{
-	Use:     "remove",
-	Example: "apm remove\napm remove OneWire\napm remove onewire\napm remove \"robot control\"\napm remove \"Robot Control\"",
-	Short:   "Remove library from the project",
-	Long:    `Remove library from the Arduino project`,
+	Use: "remove",
+	Example: "apm remove\n" +
+		"apm remove OneWire\n" +
+		"apm remove onewire\n" +
+		"apm remove \"robot control\"\n" +
+		"apm remove \"Robot Control\"\n" +
+		"apm remove \"https://github.com/jandrassy/ArduinoOTA\"\n" +
+		"apm remove https://github.com/jandrassy/ArduinoOTA\n" +
+		"apm remove ArduinoOTA.zip\n" +
+		"apm remove \"ArduinoOTA.zip\"",
+	Short: "Remove library from the project",
+	Long:  `Remove library from the Arduino project`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// project details
 		details, err := project.GetProjectDetails(cmd)
@@ -47,46 +56,71 @@ var removeCmd = &cobra.Command{
 		}
 		defer cli.Destroy()
 
-		libToRemove := ""
+		var libToRemove *project.ProjectDependency = nil
 		// no library provided
 		if len(args) < 1 {
 			fmt.Println("No library provided...")
 			items := make(map[string]interface{})
 			for _, dep := range details.Dependencies {
-				// TODO: continue
-				//if dep.Library == "" && dep.Git != "" {
-				//	items[dep.Git] = dep.Git
-				//}
-				//if dep.Library == "" && dep.Zip != "" {
-				//	items[dep.Zip] = dep.Zip
-				//}
-				if dep.Library != "" && dep.Version != "" {
-					items[fmt.Sprintf("%s (%s)", dep.Library, dep.Version)] = dep.Library
+				libTitle := ""
+				if dep.Library == "" && dep.Git != "" {
+					libTitle = dep.Git
 				}
+				if dep.Library == "" && dep.Zip != "" {
+					libTitle = dep.Zip
+				}
+				if dep.Library != "" && dep.Version != "" {
+					libTitle = fmt.Sprintf("%s (%s)", dep.Library, dep.Version)
+				}
+				items[libTitle] = &dep
 			}
 			selectedLib, err := util.Select("Select library to remove", []string{"Cancel"}, items)
 			if err != nil {
 				return err
 			}
-			if selectedLib.(string) == "Cancel" {
-				return errors.New("cancelled")
+
+			// check if cancelled
+			switch selectedLib.(type) {
+			case string:
+				if selectedLib.(string) == "Cancel" {
+					return errors.New("cancelled")
+				}
+				break
 			}
-			libToRemove = selectedLib.(string)
+
+			libToRemove = selectedLib.(*project.ProjectDependency)
 		} else { // library name provided
 			libToRemoveArg := args[0]
 			for _, dep := range details.Dependencies {
-				if strings.ToLower(dep.Library) == libToRemoveArg {
-					libToRemove = dep.Library
+				if strings.ToLower(dep.Library) == strings.ToLower(libToRemoveArg) ||
+					dep.Git == libToRemoveArg ||
+					dep.Zip == libToRemoveArg {
+					libToRemove = &dep
 				}
 			}
-			if libToRemove == "" {
-				return errors.New(fmt.Sprintf("failed to find '%s' in the project", libToRemoveArg))
+			if libToRemove == nil {
+				return errors.New(fmt.Sprintf("failed to find '%s' library in the project", libToRemoveArg))
 			}
 		}
 
+		// log removal
+		libName := ""
+		if libToRemove.Library != "" {
+			libName = libToRemove.Library
+		}
+		if libToRemove.Git != "" {
+			libName = libToRemove.Git
+		}
+		if libToRemove.Zip != "" {
+			libName = libToRemove.Zip
+		}
+		log.Printf("Removing '%s'...", libName)
+
 		// remove from project file
 		for i, dep := range details.Dependencies {
-			if dep.Library == libToRemove {
+			if (dep.Library != "" && dep.Library == libToRemove.Library) ||
+				(dep.Git != "" && dep.Git == libToRemove.Git) ||
+				(dep.Zip != "" && dep.Zip == libToRemove.Zip) {
 				details.Dependencies = removeFromDeps(details.Dependencies, i)
 				break
 			}
