@@ -33,8 +33,9 @@ Flags:
 Use "apm [command] --help" for more information about a command.
 ```
 
-### Showcase
-TODO
+### Demo
+https://asciinema.org/a/6L1JlVsEZMZdvUC8in2b4mjqc
+[![asciicast](https://asciinema.org/a/6L1JlVsEZMZdvUC8in2b4mjqc.png)](https://asciinema.org/a/6L1JlVsEZMZdvUC8in2b4mjqc)
 
 ### Installation
 #### Install on Linux/MacOS
