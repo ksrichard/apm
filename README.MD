@@ -34,8 +34,8 @@ Use "apm [command] --help" for more information about a command.
 ```
 
 ### Demo
-https://asciinema.org/a/6L1JlVsEZMZdvUC8in2b4mjqc
-[![asciicast](https://asciinema.org/a/6L1JlVsEZMZdvUC8in2b4mjqc.png)](https://asciinema.org/a/6L1JlVsEZMZdvUC8in2b4mjqc)
+https://asciinema.org/a/414014
+[![asciicast](https://asciinema.org/a/414014.png)](https://asciinema.org/a/414014)
 
 ### Installation
 #### Install on Linux/MacOS
